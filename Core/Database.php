@@ -6,7 +6,7 @@ class Database
     public $connection;
     protected $statement;
 
-    public function __construct($config, $username = 'root', $password = 'EeNxt@Y2')
+    public function __construct($config, $username = 'root', $password = '')
     {
         $dsn = 'mysql:' . http_build_query($config, '', ';');
         $this->connection = new \PDO($dsn, $username, $password, [
