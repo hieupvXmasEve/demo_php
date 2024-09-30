@@ -10,11 +10,14 @@
             <p>
                 <?= htmlspecialchars($note['body']) ?>
             </p>
-            <form class="mt-6" method="POST">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="id" value="<?= $note['id'] ?>">
-                <button class="text-sm text-red-500">Xóa</button>
-            </form>
+            <footer class="mt-6 flex items-center gap-3">
+                <a href="/note/edit?id=<?= $note['id'] ?>" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Chỉnh sửa</a>
+                <form class="" method="POST" action="/note">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type="hidden" name="id" value="<?= $note['id'] ?>">
+                    <button class="inline-flex justify-center rounded-md border border-transparent bg-red-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Xóa</button>
+                </form>
+            </footer>
         </div>
     </main>
 
