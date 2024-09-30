@@ -1,8 +1,8 @@
 <?php
 
 use Core\App as CoreApp;
+use Core\Authenticator;
 use Core\Database;
-use Core\Validator;
 use Http\Forms\LoginForm;
 
 // log in 
@@ -17,21 +17,17 @@ if (!$form->validate($email, $password)) {
         'heading' => 'Login'
     ]);
 }
-// match the credentials
-$user = $db->query('SELECT * FROM users WHERE email = :email', ['email' => $email])->find();
 
-if ($user) {
-    if (password_verify($password, $user['password'])) {
-        login($user);
-        header('location: /');
-        exit();
-    }
+$auth = new Authenticator();
+$auth->attempt($email, $password);
+
+if ($auth->attempt($email, $password)) {
+    header('location: /');
+    exit();
+} else {
+
+    return view('sessions/create.view.php', [
+        'errors' => $errors,
+        'heading' => 'Login'
+    ]);
 }
-
-// if the credentials are not valid
-$errors['password'] = 'The provided credentials are incorrect.';
-
-return view('sessions/create.view.php', [
-    'errors' => $errors,
-    'heading' => 'Login'
-]);
