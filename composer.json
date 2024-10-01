@@ -1,0 +1,12 @@
+{
+    "name": "hieupv/demo",
+    "require": {
+        "illuminate/collections": "^11.25"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core/",
+            "Http\\": "Http/"
+        }
+    }
+}
