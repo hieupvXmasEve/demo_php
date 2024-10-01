@@ -1,6 +1,7 @@
 <?php
 
 use Core\Response;
+use Core\Session;
 
 function dd($value)
 {
@@ -50,4 +51,14 @@ function view($path, $attributes = [])
     extract($attributes);
 
     require base_path("views/{$path}");
+}
+
+function redirect($path)
+{
+    header("location: {$path}");
+    exit();
+}
+function old($key)
+{
+    return Session::get('old')[$key] ?? null;
 }

@@ -1,33 +1,16 @@
 <?php
 
-use Core\App as CoreApp;
 use Core\Authenticator;
-use Core\Database;
 use Http\Forms\LoginForm;
 
-// log in 
-$db = CoreApp::resolve(Database::class);
+$form = LoginForm::validate($attributes = [
+    'email' => $_POST['email'],
+    'password' => $_POST['password']
+]);
 
-$email = $_POST['email'];
-$password = $_POST['password'];
-$form = new LoginForm();
-if (!$form->validate($email, $password)) {
-    return view('sessions/create.view.php', [
-        'errors' => $form->errors(),
-        'heading' => 'Login'
-    ]);
+$signedIn = (new Authenticator())->attempt($attributes['email'], $attributes['password']);
+if (!$signedIn) {
+    $form->error('email', 'No matching account found for that email address and password.')->throw();
 }
 
-$auth = new Authenticator();
-$auth->attempt($email, $password);
-
-if ($auth->attempt($email, $password)) {
-    header('location: /');
-    exit();
-} else {
-
-    return view('sessions/create.view.php', [
-        'errors' => $errors,
-        'heading' => 'Login'
-    ]);
-}
+redirect('/');
